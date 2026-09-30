@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aliko — Training Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #1b1a17;
+    --panel: #24221e;
+    --panel-2: #2c2a25;
+    --line: #3a372f;
+    --gold: #c9972b;
+    --gold-soft: rgba(201,151,43,0.14);
+    --sage: #8a9b7e;
+    --sage-soft: rgba(138,155,126,0.14);
+    --text: #f3ede1;
+    --text-muted: #b9b2a2;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  * { box-sizing: inherit; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, .tabbtn {
+    font-family: "Oswald", -apple-system, sans-serif;
+    letter-spacing: 0.01em;
+  }
+  header.hero {
+    padding: 2.2rem 1.25rem 1.6rem;
+    background: linear-gradient(180deg, #232019 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--line);
+  }
+  .kicker {
+    color: var(--gold);
+    font-weight: 600;
+    font-size: 0.8rem;
+    margin-bottom: 0.4rem;
+  }
+  h1 {
+    font-size: 2.1rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem;
+    line-height: 1.05;
+  }
+  .hero p {
+    color: var(--text-muted);
+    max-width: 46ch;
+    margin: 0;
+    font-size: 0.98rem;
+  }
+  nav.tabs {
+    display: flex;
+    gap: 0.4rem;
+    overflow-x: auto;
+    padding: 0.9rem 1.25rem;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 10;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  nav.tabs::-webkit-scrollbar { display: none; }
+  .tabbtn {
+    flex: none;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    color: var(--text-muted);
+    padding: 0.55rem 0.95rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .tabbtn.active {
+    background: var(--gold-soft);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+  main { padding: 1.4rem 1.25rem 3rem; max-width: 640px; margin: 0 auto; }
+  section.panel { display: none; }
+  section.panel.active { display: block; animation: fade 0.25s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px);} to { opacity:1; transform:none; } }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 1.1rem 1.2rem;
+    margin-bottom: 1rem;
+  }
+  .card h3 {
+    margin: 0 0 0.6rem;
+    font-size: 1.15rem;
+    color: var(--text);
+  }
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.4rem;
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    margin-bottom: 0.4rem;
+  }
+  .meta-row strong { color: var(--text); font-weight: 600; }
+
+  table.plan {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+  }
+  table.plan th {
+    text-align: left;
+    color: var(--text-muted);
+    font-weight: 500;
+    font-size: 0.78rem;
+    padding: 0.3rem 0.4rem 0.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+  table.plan td {
+    padding: 0.55rem 0.4rem;
+    border-bottom: 1px solid var(--line);
+  }
+  table.plan tr:last-child td { border-bottom: none; }
+  .ex-name { font-weight: 500; }
+  .ex-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    color: var(--gold);
+    background: var(--gold-soft);
+    padding: 0.1rem 0.45rem;
+    border-radius: 6px;
+    margin-left: 0.4rem;
+  }
+  .finisher {
+    margin-top: 0.9rem;
+    padding-top: 0.8rem;
+    border-top: 1px dashed var(--line);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+  .finisher strong { color: var(--text); }
+
+  .tip-list { margin: 0; padding: 0; list-style: none; }
+  .tip-list li {
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .tip-list li:last-child { border-bottom: none; }
+  .tip-list h4 {
+    margin: 0 0 0.25rem;
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .tip-list p { margin: 0; color: var(--text-muted); font-size: 0.9rem; }
+
+  .food-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+  }
+  .food-item {
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 0.6rem 0.7rem;
+    font-size: 0.88rem;
+  }
+  .note {
+    background: var(--sage-soft);
+    border: 1px solid var(--sage);
+    border-radius: 12px;
+    padding: 0.9rem 1rem;
+    font-size: 0.88rem;
+    color: var(--text);
+  }
+  .note strong { color: var(--sage); }
+
+  .day-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.9rem;
+  }
+  .day-row:last-child { border-bottom: none; }
+  .day-row .checks { display: flex; gap: 0.5rem; }
+  .chk {
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: var(--panel-2);
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+  }
+  .chk.done {
+    background: var(--sage-soft);
+    border-color: var(--sage);
+    color: var(--sage);
+  }
+  .chk-legend {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-bottom: 0.6rem;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg: #f7f4ee;
+      --panel: #ffffff;
+      --panel-2: #f0ede4;
+      --line: #e2ddd0;
+      --text: #201e1a;
+      --text-muted: #6b6558;
+      --gold-soft: rgba(201,151,43,0.12);
+      --sage-soft: rgba(138,155,126,0.16);
+    }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">Aliko · Size &amp; Strength Block</div>
+  <h1>Build. Get bigger, stronger, and stay track-sharp.</h1>
+  <p>4 days a week, ~75 min a session, full gym access. Two-week rotation so nothing goes stale — same main lifts both weeks, different rep ranges and accessories.</p>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button class="tabbtn active" data-tab="overview">Overview</button>
+  <button class="tabbtn" data-tab="weekA">Week A</button>
+  <button class="tabbtn" data-tab="weekB">Week B</button>
+  <button class="tabbtn" data-tab="nutrition">Nutrition</button>
+  <button class="tabbtn" data-tab="habits">Habits</button>
+  <button class="tabbtn" data-tab="tips">Tips</button>
+</nav>
+
+<main>
+
+  <section class="panel active" id="overview">
+    <div class="card">
+      <h3>The setup</h3>
+      <div class="meta-row"><span><strong>Frequency:</strong> 4x/week</span><span><strong>Length:</strong> ~75 min</span><span><strong>Equipment:</strong> full gym</span></div>
+      <div class="meta-row"><span><strong>Focus:</strong> upper body priority, legs on maintenance</span></div>
+      <p style="color:var(--text-muted); font-size:0.9rem; margin-top:0.6rem;">You were doing 6 days a week before — that's part of why you kept plateauing. Fewer, harder sessions with real recovery between them is what lets the muscle actually grow back bigger. Trust the pull-back.</p>
+    </div>
+    <div class="card">
+      <h3>Your weekly schedule</h3>
+      <table class="plan">
+        <tr><th>Day</th><th>Session</th></tr>
+        <tr><td class="ex-name">Monday</td><td>Day 1 — Push</td></tr>
+        <tr><td class="ex-name">Tuesday</td><td>Day 2 — Legs</td></tr>
+        <tr><td class="ex-name">Wednesday</td><td>Rest</td></tr>
+        <tr><td class="ex-name">Thursday</td><td>Day 3 — Pull</td></tr>
+        <tr><td class="ex-name">Friday</td><td>Rest</td></tr>
+        <tr><td class="ex-name">Saturday</td><td>Day 4 — Weak point + calisthenics</td></tr>
+        <tr><td class="ex-name">Sunday</td><td>Rest</td></tr>
+      </table>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin-top:0.6rem;">You can shift this whole block earlier or later in the week for track or life stuff — just keep one rest day between Push and Pull days, and never train 3 days in a row.</p>
+    </div>
+    <div class="card">
+      <h3>Why the rotation</h3>
+      <p style="color:var(--text-muted); font-size:0.9rem;">Week A and Week B use the same main lifts (bench, squat, pull-up/row) so progress is easy to track — but the rep ranges and accessory work shift, so your body keeps getting a slightly new stimulus instead of adapting and stalling out like before.</p>
+    </div>
+    <div class="card">
+      <h3>The progression rule</h3>
+      <p style="color:var(--text-muted); font-size:0.9rem;">This is the part that actually makes you grow, not just the exercise list. <strong style="color:var(--text);">If you hit the top of the rep range on every set for a lift, add a little weight next time you do that lift</strong> — smallest plate increment available. If you don't hit the top of the range, repeat the same weight next time. That's it. Log your weights somewhere (notes app is fine) so you know when to bump it.</p>
+    </div>
+    <div class="card">
+      <h3>4-week checkpoint</h3>
+      <p style="color:var(--text-muted); font-size:0.9rem;">After running Week A and Week B twice each (4 weeks total), check in properly — how the lifts felt, what's gone up, what's stalled. That's when the plan gets adjusted into a new block, not before.</p>
+      <p style="color:var(--text-muted); font-size:0.9rem; margin-top:0.6rem;"><strong style="color:var(--text);">Deload:</strong> after finishing that first 4-week block, take one lighter week before starting the next — cut sets by about a third on everything. This is what keeps the plan sustainable over months, not just weeks.</p>
+    </div>
+    <div class="card">
+      <h3>Where the 13 principles show up here</h3>
+      <ul class="tip-list" style="font-size:0.85rem;">
+        <li><h4>Practical goal setting</h4><p>Set at the consult — bigger, stronger, staying track-ready.</p></li>
+        <li><h4>Genetic variation</h4><p>RIR-based, not fixed numbers — adapts to how his body actually responds.</p></li>
+        <li><h4>Motivation</h4><p>Weekly checklist and check-ins keep progress visible.</p></li>
+        <li><h4>Teaching model</h4><p>Tempo cues here plus tutorial videos once his form is checked.</p></li>
+        <li><h4>Fitness evaluation</h4><p>RIR tracking each session, full reassessment at 4 weeks.</p></li>
+        <li><h4>Progressive overload</h4><p>The top-of-rep-range rule above.</p></li>
+        <li><h4>Specificity</h4><p>Hypertrophy rep ranges, push/pull/leg split matching his goal.</p></li>
+        <li><h4>Modification</h4><p>Day 4 weak-point slot adapts once his form is checked.</p></li>
+        <li><h4>Periodization</h4><p>Week A/B undulates volume and intensity; new block every 4 weeks.</p></li>
+        <li><h4>Overtraining</h4><p>Pulled back from 6 days to 4, rest days built in.</p></li>
+        <li><h4>Detraining</h4><p>Fixed weekly schedule keeps gaps from creeping in.</p></li>
+        <li><h4>Recovery</h4><p>Sleep, water, and protein sections below.</p></li>
+        <li><h4>Compliance and adherence</h4><p>Flexible day choice within one fixed rule, plus the checklist.</p></li>
+      </ul>
+    </div>
+    <div class="note"><strong>Heads up:</strong> exercise picks may shift slightly once we go over your push/pull form on call — this is the starting draft.</div>
+  </section>
+
+  <section class="panel" id="weekA">
+    <div class="card">
+      <h3>Day 1 — Push · Monday</h3>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin:-0.4rem 0 0.7rem;"><strong style="color:var(--gold);">Tempo:</strong> 1–2 sec on the way down for every rep on the main and supplemental lifts. Accessories: steady, controlled pace.</p>
+      <p style="color:var(--sage); font-size:0.8rem; font-weight:600; margin:0.9rem 0 0.3rem;">Warm-up (before working sets)</p>
+      <table class="plan">
+        <tr><th>Exercise</th><th>Sets</th><th>Reps</th></tr>
+        <tr><td class="ex-name">Band pull-aparts <span class="ex-tag">mobility</span></td><td>2</td><td>5</td></tr>
+        <tr><td class="ex-name">Arm circles <span class="ex-tag">mobility</span></td><td>2</td><td>5 each way</td></tr>
+        <tr><td class="ex-name">Scapular push-ups <span class="ex-tag">stability</span></td><td>2</td><td>5</td></tr>
+        <tr><td class="ex-name">Wall slides <span class="ex-tag">stability</span></td><td>2</td><td>5</td></tr>
+      </table>
+      <p style="color:var(--sage); font-size:0.8rem; font-weight:600; margin:0.9rem 0 0.3rem;">Working sets</p>
+      <table class="plan">
+        <tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr>
+        <tr><td class="ex-name">Bench press <span class="ex-tag">main</span></td><td>4</td><td>6–8</td><td>2–3 min</td></tr>
+        <tr><td class="ex-name">Incline DB press</td><td>3</td><td>8–12</td><td>90s</td></tr>
+        <tr><td class="ex-name">Overhead press</td><td>3</td><td>8–12</td><td>90s</td></tr>
+        <tr><td class="ex-name">Lateral raises</td><td>3</td><td>12–15</td><td>60s</td></tr>
+        <tr><td class="ex-name">Tricep pushdown</td><td>3</td><td>12–15</td><td>60s</td></tr>
+      </table>
+      <div class="finisher"><strong>Finisher:</strong> dips or push-up variation, 2–3 sets near failure</div>
+    </div>
+    <div class="card">
+      <h3>Day 2 — Legs (maintenance) · Tuesday</h3>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin:-0.4rem 0 0.7rem;"><strong style="color:var(--gold);">Tempo:</strong> 1–2 sec eccentric on squat/leg press and RDL. Accessories: steady pace.</p>
+      <p style="color:var(--sage); font-size:0.8rem; font-weight:600; margin:0.9rem 0 0.3rem;">Warm-up (before working sets)</p>
+      <p style="color:var(--text-muted); font-size:0.88rem; margin:0 0 0.5rem;">10 min light treadmill — walk or easy jog, just enough to break a light sweat.</p>
+      <table class="plan">
+        <tr><th>Exercise</th><th>Sets</th><th>Reps</th></tr>
+        <tr><td class="ex-name">Leg swings <span class="ex-tag">mobility</span></td><td>2</td><td>5 each leg</td></tr>
+        <tr><td class="ex-name">Hip flexor stretch <span class="ex-tag">mobility</span></td><td>2</td><td>30 sec each side</td></tr>
+        <tr><td class="ex-name">Bodyweight squats <span class="ex-tag">stability</span></td><td>2</td><td>5</td></tr>
+      </table>
+      <p style="color:var(--sage); font-size:0.8rem; font-weight:600; margin:0.9rem 0 0.3rem;">Working sets</p>
+      <table class="plan">
+        <tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr>
+        <tr><td class="ex-name">Squat or leg press <span class="ex-tag">main</span></td><td>3</td><td>8–10</td><td>2 min</td></tr>
+        <tr><td class="ex-name">Romanian deadlift</td><td>3</td><td>8–10</td><td>90s</td></tr>
+        <tr><td class="ex-name">Leg curl</td><td>3</td><td>12–15</td><td>60s</td></tr>
+        <tr><td class="ex-name">Calf raise</td><td>3</td><td>12–15</td><td>60s</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>Day 3 — Pull · Thursday</h3>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin:-0.4rem 0 0.7rem;"><strong style="color:var(--gold);">Tempo:</strong> 1–2 sec on the way down for main and supplemental lifts. Accessories: steady pace.</p>
+      <p style="color:var(--sage); font-size:0.8rem; font-weight:600; margin:0.9rem 0 0.3rem;">Warm-up (before working sets)</p>
+      <table class="plan">
+        <tr><th>Exercise</th><th>Sets</th><th>Reps</th></tr>
+        <tr><td class="ex-name">Band pull-aparts <span class="ex-tag">mobility</span></td><td>2</td><td>5</td></tr>
+        <tr><td class="ex-name">Thoracic rotations <span class="ex-tag">mobility</span></td><td>2</td><td>5 each side</td></tr>
+        <tr><td class="ex-name">Dead hangs <span class="ex-tag">stability</span></td><td>2</td><td>15–20 sec</td></tr>
+        <tr><td class="ex-name">Light band face pulls <span class="ex-tag">stability</span></td><td>2</td><td>5</td></tr>
+      </table>
+      <p style="color:var(--sage); font-size:0.8rem; font-weight:600; margin:0.9rem 0 0.3rem;">Working sets</p>
+      <table class="plan">
+        <tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr>
+        <tr><td class="ex-name">Weighted pull-up / lat pulldown <span class="ex-tag">main</span></td><td>4</td><td>6–8</td><td>2–3 min</td></tr>
+        <tr><td class="ex-name">Barbell or DB row</td><td>3</td><td>8–12</td><td>90s</td></tr>
+        <tr><td class="ex-name">Face pulls</td><td>3</td><td>12–15</td><td>60s</td></tr>
+        <tr><td class="ex-name">Bicep curls</td><td>3</td><td>12–15</td><td>60s</td></tr>
+      </table>
+      <div class="finisher"><strong>Finisher:</strong> chin-ups or inverted rows, 2–3 sets near failure</div>
+    </div>
+    <div class="card">
+      <h3>Day 4 — Weak point + calisthenics · Saturday</h3>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:0.7rem;"><strong style="color:var(--gold);">Weak-point slot:</strong> once we've checked your form, this becomes 3 sets of 8–12 on whichever pattern (push or pull) looked weaker. Placeholder below until then.</p>
+      <p style="color:var(--sage); font-size:0.8rem; font-weight:600; margin:0.9rem 0 0.3rem;">Warm-up (before working sets)</p>
+      <table class="plan">
+        <tr><th>Exercise</th><th>Sets</th><th>Reps</th></tr>
+        <tr><td class="ex-name">Jumping jacks or rowing machine <span class="ex-tag">general</span></td><td>1</td><td>3–5 min</td></tr>
+        <tr><td class="ex-name">Band pull-aparts <span class="ex-tag">mobility</span></td><td>2</td><td>5</td></tr>
+        <tr><td class="ex-name">Scapular push-ups <span class="ex-tag">stability</span></td><td>2</td><td>5</td></tr>
+        <tr><td class="ex-name">Leg swings <span class="ex-tag">mobility</span></td><td>2</td><td>5 each leg</td></tr>
+      </table>
+      <p style="color:var(--sage); font-size:0.8rem; font-weight:600; margin:0.9rem 0 0.3rem;">Working sets</p>
+      <table class="plan">
+        <tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr>
+        <tr><td class="ex-name">Weak-point lift <span class="ex-tag">TBD after form check</span></td><td>3</td><td>8–12</td><td>90s</td></tr>
+      </table>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin:0.8rem 0 0.4rem;"><strong style="color:var(--gold);">Calisthenics circuit</strong> — 3–4 rounds, steady pace, short rest between exercises (~30s):</p>
+      <table class="plan">
+        <tr><th>Exercise</th><th>Reps</th></tr>
+        <tr><td class="ex-name">Push-ups</td><td>12–15</td></tr>
+        <tr><td class="ex-name">Dips</td><td>8–12</td></tr>
+        <tr><td class="ex-name">Chin-ups</td><td>6–10</td></tr>
+      </table>
+      <div class="finisher"><strong>Core:</strong> plank or hanging knee raise, 2–3 sets to near failure</div>
+    </div>
+  </section>
+
+  <section class="panel" id="weekB">
+    <div class="card">
+      <h3>Day 1 — Push · Monday</h3>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin:-0.4rem 0 0.7rem;"><strong style="color:var(--gold);">Tempo:</strong> 1–2 sec eccentric, main and supplemental lifts. Accessories: steady pace.</p>
+      <p style="color:var(--sage); font-size:0.8rem; font-weight:600; margin:0.9rem 0 0.3rem;">Warm-up (before working sets)</p>
+      <table class="plan">
+        <tr><th>Exercise</th><th>Sets</th><th>Reps</th></tr>
+        <tr><td class="ex-name">Band pull-aparts <span class="ex-tag">mobility</span></td><td>2</td><td>5</td></tr>
+        <tr><td class="ex-name">Arm circles <span class="ex-tag">mobility</span></td><td>2</td><td>5 each way</td></tr>
+        <tr><td class="ex-name">Scapular push-ups <span class="ex-tag">stability</span></td><td>2</td><td>5</td></tr>
+        <tr><td class="ex-name">Wall slides <span class="ex-tag">stability</span></td><td>2</td><td>5</td></tr>
+      </table>
+      <p style="color:var(--sage); font-size:0.8rem; font-weight:600; margin:0.9rem 0 0.3rem;">Working sets</p>
+      <table class="plan">
+        <tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr>
+        <tr><td class="ex-name">Bench press <span class="ex-tag">main</span></td><td>4</td><td>8–10</td><td>2 min</td></tr>
+        <tr><td class="ex-name">Flat DB press</td><td>3</td><td>10–12</td><td>75s</td></tr>
+        <tr><td class="ex-name">Arnold press</td><td>3</td><td>10–12</td><td>75s</td></tr>
+        <tr><td class="ex-name">Cable lateral raises</td><td>3</td><td>15</td><td>45s</td></tr>
+        <tr><td class="ex-name">Overhead tricep extension</td><td>3</td><td>12–15</td><td>45s</td></tr>
+      </table>
+      <div class="finisher"><strong>Finisher:</strong> close-grip push-ups, 2–3 sets near failure</div>
+    </div>
+    <div class="card">
+      <h3>Day 2 — Legs (maintenance) · Tuesday</h3>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin:-0.4rem 0 0.7rem;"><strong style="color:var(--gold);">Tempo:</strong> 1–2 sec eccentric on the main lift. Accessories: steady pace.</p>
+      <p style="color:var(--sage); font-size:0.8rem; font-weight:600; margin:0.9rem 0 0.3rem;">Warm-up (before working sets)</p>
+      <p style="color:var(--text-muted); font-size:0.88rem; margin:0 0 0.5rem;">10 min light treadmill — walk or easy jog, just enough to break a light sweat.</p>
+      <table class="plan">
+        <tr><th>Exercise</th><th>Sets</th><th>Reps</th></tr>
+        <tr><td class="ex-name">Leg swings <span class="ex-tag">mobility</span></td><td>2</td><td>5 each leg</td></tr>
+        <tr><td class="ex-name">Hip flexor stretch <span class="ex-tag">mobility</span></td><td>2</td><td>30 sec each side</td></tr>
+        <tr><td class="ex-name">Bodyweight squats <span class="ex-tag">stability</span></td><td>2</td><td>5</td></tr>
+      </table>
+      <p style="color:var(--sage); font-size:0.8rem; font-weight:600; margin:0.9rem 0 0.3rem;">Working sets</p>
+      <table class="plan">
+        <tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr>
+        <tr><td class="ex-name">Front squat or leg press <span class="ex-tag">main</span></td><td>3</td><td>10–12</td><td>2 min</td></tr>
+        <tr><td class="ex-name">Hip thrust</td><td>3</td><td>10–12</td><td>75s</td></tr>
+        <tr><td class="ex-name">Leg extension</td><td>3</td><td>15</td><td>45s</td></tr>
+        <tr><td class="ex-name">Calf raise</td><td>3</td><td>15</td><td>45s</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>Day 3 — Pull · Thursday</h3>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin:-0.4rem 0 0.7rem;"><strong style="color:var(--gold);">Tempo:</strong> 1–2 sec eccentric, main and supplemental lifts. Accessories: steady pace.</p>
+      <p style="color:var(--sage); font-size:0.8rem; font-weight:600; margin:0.9rem 0 0.3rem;">Warm-up (before working sets)</p>
+      <table class="plan">
+        <tr><th>Exercise</th><th>Sets</th><th>Reps</th></tr>
+        <tr><td class="ex-name">Band pull-aparts <span class="ex-tag">mobility</span></td><td>2</td><td>5</td></tr>
+        <tr><td class="ex-name">Thoracic rotations <span class="ex-tag">mobility</span></td><td>2</td><td>5 each side</td></tr>
+        <tr><td class="ex-name">Dead hangs <span class="ex-tag">stability</span></td><td>2</td><td>15–20 sec</td></tr>
+        <tr><td class="ex-name">Light band face pulls <span class="ex-tag">stability</span></td><td>2</td><td>5</td></tr>
+      </table>
+      <p style="color:var(--sage); font-size:0.8rem; font-weight:600; margin:0.9rem 0 0.3rem;">Working sets</p>
+      <table class="plan">
+        <tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr>
+        <tr><td class="ex-name">Chin-up / lat pulldown <span class="ex-tag">main</span></td><td>4</td><td>8–10</td><td>2 min</td></tr>
+        <tr><td class="ex-name">Seated cable row</td><td>3</td><td>10–12</td><td>75s</td></tr>
+        <tr><td class="ex-name">Rear delt fly</td><td>3</td><td>15</td><td>45s</td></tr>
+        <tr><td class="ex-name">Hammer curls</td><td>3</td><td>12–15</td><td>45s</td></tr>
+      </table>
+      <div class="finisher"><strong>Finisher:</strong> inverted rows, 2–3 sets near failure</div>
+    </div>
+    <div class="card">
+      <h3>Day 4 — Weak point + calisthenics · Saturday</h3>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:0.7rem;"><strong style="color:var(--gold);">Weak-point slot:</strong> same pattern as Week A, higher-rep range this week.</p>
+      <p style="color:var(--sage); font-size:0.8rem; font-weight:600; margin:0.9rem 0 0.3rem;">Warm-up (before working sets)</p>
+      <table class="plan">
+        <tr><th>Exercise</th><th>Sets</th><th>Reps</th></tr>
+        <tr><td class="ex-name">Jumping jacks or rowing machine <span class="ex-tag">general</span></td><td>1</td><td>3–5 min</td></tr>
+        <tr><td class="ex-name">Band pull-aparts <span class="ex-tag">mobility</span></td><td>2</td><td>5</td></tr>
+        <tr><td class="ex-name">Scapular push-ups <span class="ex-tag">stability</span></td><td>2</td><td>5</td></tr>
+        <tr><td class="ex-name">Leg swings <span class="ex-tag">mobility</span></td><td>2</td><td>5 each leg</td></tr>
+      </table>
+      <p style="color:var(--sage); font-size:0.8rem; font-weight:600; margin:0.9rem 0 0.3rem;">Working sets</p>
+      <table class="plan">
+        <tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr>
+        <tr><td class="ex-name">Weak-point lift <span class="ex-tag">TBD after form check</span></td><td>3</td><td>12–15</td><td>60s</td></tr>
+      </table>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin:0.8rem 0 0.4rem;"><strong style="color:var(--gold);">Calisthenics circuit</strong> — 3–4 rounds, steady pace, short rest (~30s):</p>
+      <table class="plan">
+        <tr><th>Exercise</th><th>Reps</th></tr>
+        <tr><td class="ex-name">Push-ups (feet elevated)</td><td>10–12</td></tr>
+        <tr><td class="ex-name">Dips</td><td>10–12</td></tr>
+        <tr><td class="ex-name">Chin-ups</td><td>6–10</td></tr>
+      </table>
+      <div class="finisher"><strong>Core:</strong> plank or hanging knee raise, 2–3 sets to near failure</div>
+    </div>
+  </section>
+
+  <section class="panel" id="nutrition">
+    <div class="card">
+      <h3>The real issue is usually frequency, not food type</h3>
+      <p style="color:var(--text-muted); font-size:0.9rem;">If you're not eating much, the fastest fix is adding one more meal or snack somewhere in your day — not overhauling what you eat. Little and often beats trying to force down huge plates.</p>
+    </div>
+    <div class="card">
+      <h3>Halal-friendly, protein-forward options</h3>
+      <div class="food-grid">
+        <div class="food-item">Chicken</div>
+        <div class="food-item">Halal beef or lamb</div>
+        <div class="food-item">Fish</div>
+        <div class="food-item">Eggs</div>
+        <div class="food-item">Greek yogurt / milk</div>
+        <div class="food-item">Lentils &amp; beans</div>
+        <div class="food-item">Oats</div>
+        <div class="food-item">Rice</div>
+        <div class="food-item">Nuts &amp; nut butter</div>
+        <div class="food-item">Cheese</div>
+      </div>
+    </div>
+    <div class="note"><strong>Not a meal plan:</strong> this is direction, not a prescription. If eating enough stays genuinely hard, that's worth a chat with a doctor or dietitian — not something to force through training alone.</div>
+  </section>
+
+  <section class="panel" id="habits">
+    <div class="card">
+      <h3>Sleep</h3>
+      <p style="color:var(--text-muted); font-size:0.9rem;">Recovery happens during sleep, not the workout — if sleep's rough, the training won't pay off as well no matter how good the plan is. Try these for a couple weeks straight, not just when you remember:</p>
+      <ul class="tip-list" style="margin-top:0.6rem;">
+        <li><h4>Same wake-up time daily</h4><p>Even on rest days. This does more for sleep quality than almost anything else.</p></li>
+        <li><h4>Phone down 30 min before bed</h4><p>Put it across the room if you can — charging it away from the bed removes the temptation entirely.</p></li>
+        <li><h4>No caffeine after mid-afternoon</h4><p>Even if you don't feel wired, it can still be affecting how deep you sleep.</p></li>
+      </ul>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin-top:0.6rem;">If it's still bad after a few weeks of actually sticking to this, that's worth mentioning to a doctor — not something to just push through.</p>
+    </div>
+    <div class="card">
+      <h3>Water</h3>
+      <p style="color:var(--text-muted); font-size:0.9rem;">Carry a bottle and sip through the day rather than chugging it all at once. More on training days, especially since you're active with track on top of lifting.</p>
+    </div>
+    <div class="card">
+      <h3>Protein shake — Monday, Tuesday, Thursday, Saturday</h3>
+      <p style="color:var(--text-muted); font-size:0.9rem;">Those are your training days on this schedule. Have it within an hour after the session — it's an easy way to get protein in without forcing down a big meal. Look for a halal-certified whey or plant-based option. Skip it Wednesday, Friday, and Sunday — get that protein from food instead on rest days. If you shift your training days around, shift the shake days with them.</p>
+    </div>
+    <div class="card">
+      <h3>This week's checklist</h3>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:0.7rem;">Taps save on this phone — check off each day. 🥤 only applies Mon / Tue / Thu / Sat — leave it blank on rest days.</p>
+      <div id="checklist"></div>
+    </div>
+  </section>
+
+  <section class="panel" id="tips">
+    <ul class="tip-list">
+      <li>
+        <h4>Control the eccentric</h4>
+        <p>1–2 seconds on the way down for every main and supplemental lift. That's where most of the growth signal actually comes from — don't rush it.</p>
+      </li>
+      <li>
+        <h4>Track reps in reserve (RIR)</h4>
+        <p>After each set, note how many more reps you could've done. Aim to leave 1–3 in the tank on most sets — this is what tells us when to add weight.</p>
+      </li>
+      <li>
+        <h4>Why not 6 days a week</h4>
+        <p>Muscle grows during recovery, not during the workout itself. Training this hard 6x/week doesn't leave enough time to actually rebuild — that's almost certainly why you kept stalling before.</p>
+      </li>
+      <li>
+        <h4>Check-ins</h4>
+        <p>We'll go over how sessions felt and adjust from there — send video if a lift feels off so we can fix form before it becomes a habit.</p>
+      </li>
+    </ul>
+  </section>
+
+</main>
+
+<script>
+  // Weekly habit checklist — saved locally on this device only
+  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const keys = ['sleep','water','protein'];
+  const labels = { sleep: '😴', water: '💧', protein: '🥤' };
+  const storageKey = 'aliko-habits-v1';
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(storageKey);
+      return raw ? JSON.parse(raw) : {};
+    } catch (e) { return {}; }
+  }
+  function saveState(state) {
+    try { localStorage.setItem(storageKey, JSON.stringify(state)); } catch (e) {}
+  }
+
+  function renderChecklist() {
+    const state = loadState();
+    const container = document.getElementById('checklist');
+    if (!container) return;
+    let html = '<div class="chk-legend"><span>😴 Sleep</span><span>💧 Water</span><span>🥤 Shake (training days)</span></div>';
+    days.forEach(day => {
+      html += `<div class="day-row"><span>${day}</span><span class="checks">`;
+      keys.forEach(k => {
+        const id = day + '-' + k;
+        const done = state[id];
+        html += `<span class="chk${done ? ' done' : ''}" data-id="${id}">${labels[k]}</span>`;
+      });
+      html += '</span></div>';
+    });
+    container.innerHTML = html;
+    container.querySelectorAll('.chk').forEach(el => {
+      el.addEventListener('click', () => {
+        const state = loadState();
+        const id = el.dataset.id;
+        state[id] = !state[id];
+        saveState(state);
+        el.classList.toggle('done');
+      });
+    });
+  }
+  renderChecklist();
+
+  const buttons = document.querySelectorAll('.tabbtn');
+  const panels = document.querySelectorAll('.panel');
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.tab).classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
